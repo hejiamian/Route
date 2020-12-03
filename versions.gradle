@@ -1,0 +1,104 @@
+ext.deps = [:]
+def versions = [:]
+versions.activity = '1.1.0'
+versions.android_gradle_plugin = '4.0.0'
+versions.annotations = "1.0.0"
+versions.appcompat = "1.2.0"
+versions.constraint_layout = "2.0.0-alpha2"
+versions.core_ktx = "1.3.2"
+versions.coroutines = "1.3.7"
+versions.espresso = "3.2.0"
+versions.fragment = "1.2.1"
+versions.junit = "4.12"
+versions.kotlin = "1.3.72"
+versions.material = "1.2.1"
+versions.recyclerview = "1.0.0"
+versions.coroutines_core = "1.4.1"
+versions.auto_service = "1.0-rc6"
+versions.javapoet = "1.11.1"
+versions.test_ext_junit="1.1.2"
+ext.versions = versions
+
+def build_versions = [:]
+build_versions.min_sdk = 14
+build_versions.compile_sdk = 29
+build_versions.target_sdk = 29
+build_versions.build_tools = "29.0.3"
+ext.build_versions = build_versions
+
+def deps = [:]
+
+def activity = [:]
+activity.activity_ktx = "androidx.activity:activity-ktx:$versions.activity"
+
+deps.activity = activity
+
+def androidx = [:]
+androidx.core_ktx = "androidx.core:core-ktx:$versions.core_ktx"
+androidx.test_ext_junit="androidx.test.ext:junit:$versions.test_ext_junit"
+deps.androidx = androidx
+
+def android = [:]
+android.material = "com.google.android.material:material:$versions.material"
+deps.android = android
+
+deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
+
+deps.annotations = "androidx.annotation:annotation:$versions.annotations"
+
+deps.app_compat = "androidx.appcompat:appcompat:$versions.appcompat"
+
+def arch_core = [:]
+arch_core.runtime = "androidx.arch.core:core-runtime:$versions.arch_core"
+arch_core.testing = "androidx.arch.core:core-testing:$versions.arch_core"
+deps.arch_core = arch_core
+
+def atsl = [:]
+atsl.core = "androidx.test:core:$versions.atsl_core"
+atsl.ext_junit = "androidx.test.ext:junit:$versions.atsl_junit"
+atsl.runner = "androidx.test:runner:$versions.atsl_runner"
+atsl.rules = "androidx.test:rules:$versions.atsl_rules"
+deps.atsl = atsl
+
+deps.benchmark = "androidx.benchmark:benchmark-junit4:$versions.benchmark"
+deps.benchmark_gradle = "androidx.benchmark:benchmark-gradle-plugin:$versions.benchmark"
+
+deps.cardview = "androidx.cardview:cardview:$versions.cardview"
+
+deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
+
+deps.core_ktx = "androidx.core:core-ktx:$versions.core_ktx"
+
+deps.dexmaker = "com.linkedin.dexmaker:dexmaker-mockito:$versions.dexmaker"
+
+def espresso = [:]
+espresso.core = "androidx.test.espresso:espresso-core:$versions.espresso"
+espresso.contrib = "androidx.test.espresso:espresso-contrib:$versions.espresso"
+espresso.intents = "androidx.test.espresso:espresso-intents:$versions.espresso"
+deps.espresso = espresso
+
+def fragment = [:]
+fragment.runtime = "androidx.fragment:fragment:${versions.fragment}"
+fragment.runtime_ktx = "androidx.fragment:fragment-ktx:${versions.fragment}"
+fragment.testing = "androidx.fragment:fragment-testing:${versions.fragment}"
+deps.fragment = fragment
+
+deps.junit = "junit:junit:$versions.junit"
+
+def kotlin = [:]
+kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
+kotlin.test = "org.jetbrains.kotlin:kotlin-test-junit:$versions.kotlin"
+kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+kotlin.allopen = "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin"
+deps.kotlin = kotlin
+
+def kotlinx = [:]
+kotlinx.coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines_core"
+deps.kotlinx = kotlinx
+
+deps.recyclerview = "androidx.recyclerview:recyclerview:$versions.recyclerview"
+
+deps.auto_service= "com.google.auto.service:auto-service:$versions.auto_service"
+deps.javapoet = "com.squareup:javapoet:$versions.javapoet"
+
+ext.deps = deps
