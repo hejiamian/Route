@@ -1,47 +1,57 @@
 package com.github.routeruntime
 
-import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import java.io.Serializable
 
-class IntentBuilder(private val target: Application) {
-    private var mClassName: String? = null
-    private val mBundle = Bundle()
-
-    private val mRouteBinding by lazy {
-        try {
-            val clazz = Class.forName("${target.packageName}.RouteBinding")
-            val constructor = clazz.getDeclaredConstructor()
-            constructor.newInstance()
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            null
-        }
+class IntentBuilder(private val context: Context) {
+    companion object {
+        private val TAG = "IntentBuilder"
     }
+
+    private var mClassName: Any? = null
+    private val mBundle = Bundle()
+    private val mModuleMap = mutableMapOf<String?, Any?>()
+    private var mModuleName: String? = null
 
     private fun build(): Intent {
         return Intent().apply {
             mClassName?.let {
-                setClassName(target.packageName, it)
+                flags = flags or Intent.FLAG_ACTIVITY_NEW_TASK
+                setClassName(context.packageName, it as String)
                 putExtras(mBundle)
             }
         }
     }
 
-    fun start() = target.startActivity(build())
+    fun start() = context.startActivity(build())
+
+    fun module(moduleName: String?) = apply {
+        this@IntentBuilder.mModuleName = moduleName
+    }
 
     fun route(route: String) = apply {
-        try {
-            mRouteBinding?.let {
-                val method = it::class.java.getDeclaredMethod("get", String::class.java)
-                mClassName = method.invoke(mRouteBinding, route) as String
+        val originalAny = mModuleMap[mModuleName]
+        val any = if (originalAny === null) {
+            try {
+                val clazz = Class.forName("${mModuleName}.RouteBinding")
+                val constructor = clazz.getDeclaredConstructor()
+                val instance = constructor.newInstance()
+                mModuleMap.put(mModuleName, instance)
+                instance
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                null
             }
-//            val functions = mRouteBinding!!::class.declaredMemberFunctions
-//            if (functions.isNotEmpty()) {
-//                mClassName = functions.elementAt(0).call(route) as String
-//            }
+        } else originalAny
+        try {
+            any?.let {
+                val method = it::class.java.getDeclaredMethod("get", String::class.java)
+                mClassName = method.invoke(it, route)
+            }
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
